@@ -1,0 +1,247 @@
+---
+sidebar: sidebar 
+permalink: docs/task_mnode_manage_storage_cluster_assets.html 
+summary: 'Vous pouvez ajouter, supprimer et modifier des ressources du cluster de stockage de nœud de gestion à l"aide de l"interface utilisateur de l"API REST.' 
+keywords: netapp, mnode, management node, rest api, hci, assets 
+---
+= Créer et gérer les ressources du cluster de stockage
+:allow-uri-read: 
+
+
+[role="lead"]
+Vous pouvez ajouter de nouvelles ressources de cluster de stockage au nœud de gestion, modifier les informations d'identification stockées des ressources de cluster de stockage connues et supprimer des ressources de cluster de stockage du nœud de gestion à l'aide de l'API REST.
+
+.Ce dont vous avez besoin
+* Vérifiez que votre cluster de stockage exécute la version 11.3 ou ultérieure du logiciel NetApp Element.
+* Vérifiez que vous avez déployé un nœud de gestion exécutant la version 11.3 ou ultérieure.
+
+
+.Options de gestion des ressources du cluster de stockage
+Choisissez l'une des options suivantes :
+
+* <<Récupérer l'ID d'installation et l'ID de cluster d'une ressource de cluster de stockage>>
+* <<Ajoutez un nouveau actif de cluster de stockage>>
+* <<Modifiez les informations d'identification enregistrées pour une ressource de cluster de stockage>>
+* <<Supprimer une ressource de cluster de stockage>>
+
+
+
+
+== Récupérer l'ID d'installation et l'ID de cluster d'une ressource de cluster de stockage
+
+Vous pouvez obtenir l'ID d'installation et l'ID du cluster de stockage via l'API REST. L'ID d'installation est nécessaire pour ajouter une nouvelle ressource de cluster de stockage et l'ID de cluster pour modifier ou supprimer une ressource de cluster de stockage spécifique.
+
+.Étapes
+. Accédez à l'interface utilisateur de l'API REST pour le service d'inventaire en saisissant l'adresse IP du nœud de gestion suivie de `/inventory/1/` :
++
+[listing]
+----
+https://<ManagementNodeIP>/inventory/1/
+----
+. Sélectionnez *Authorise* ou une icône de verrouillage et procédez comme suit :
++
+.. Saisissez le nom d'utilisateur et le mot de passe du cluster.
+.. Entrez l'ID client comme `mnode-client`.
+.. Sélectionnez *Autoriser* pour démarrer une session.
+.. Fermez la fenêtre.
+
+
+. Sélectionnez *OBTENIR /installations*.
+. Sélectionnez *essayez-le*.
+. Sélectionnez *Exécuter*.
++
+L'API renvoie une liste de toutes les installations connues.
+
+. A partir du corps de réponse code 200, enregistrez la valeur dans le `id` champ, que vous trouverez dans la liste des installations. Il s'agit de l'ID d'installation. Par exemple :
++
+[listing, subs="+quotes"]
+----
+"installations": [
+    {
+      *"id": "1234a678-12ab-35dc-7b4a-1234a5b6a7ba",*
+      "name": "my-hci-installation",
+      "_links": {
+        "collection": "https://localhost/inventory/1/installations",
+        "self": "https://localhost/inventory/1/installations/1234a678-12ab-35dc-7b4a-1234a5b6a7ba"
+      }
+    }
+  ]
+----
+. Accédez à l'interface utilisateur de l'API REST du service de stockage en saisissant l'adresse IP du nœud de gestion, puis `/storage/1/` :
++
+[listing]
+----
+https://<ManagementNodeIP>/storage/1/
+----
+. Sélectionnez *Authorise* ou une icône de verrouillage et procédez comme suit :
++
+.. Saisissez le nom d'utilisateur et le mot de passe du cluster.
+.. Entrez l'ID client comme `mnode-client`.
+.. Sélectionnez *Autoriser* pour démarrer une session.
+.. Fermez la fenêtre.
+
+
+. Sélectionnez *LIRE /clusters*.
+. Sélectionnez *essayez-le*.
+. Entrez l'ID d'installation que vous avez enregistré précédemment dans le `installationId` paramètre.
+. Sélectionnez *Exécuter*.
++
+L'API renvoie la liste de tous les clusters de stockage connus dans cette installation.
+
+. Dans le corps de réponse du code 200, recherchez le cluster de stockage approprié et enregistrez la valeur dans le champ du cluster `storageId`. Il s'agit de l'ID du cluster de stockage.
+
+
+
+
+== Ajoutez un nouveau actif de cluster de stockage
+
+Vous pouvez utiliser l'API REST pour ajouter une ou plusieurs nouvelles ressources du cluster de stockage à l'inventaire des nœuds de gestion. Lorsque vous ajoutez un nouveau actif de cluster de stockage, il est automatiquement enregistré auprès du nœud de gestion.
+
+.Ce dont vous avez besoin
+* Vous avez copié le <<Récupérer l'ID d'installation et l'ID de cluster d'une ressource de cluster de stockage,ID de cluster de stockage et ID d'installation>> pour tout cluster de stockage que vous souhaitez ajouter.
+* Si vous ajoutez plusieurs nœuds de stockage, vous avez lu et compris les limites de la link:concept_hci_clusters.html#authoritative-storage-clusters["cluster faisant autorité"]prise en charge de et de plusieurs clusters de stockage.
++
+
+NOTE: Tous les utilisateurs définis sur le cluster faisant autorité sont définis comme des utilisateurs sur tous les autres clusters reliés à l'instance Cloud Control hybride.
+
+
+
+.Étapes
+. Accédez à l'interface utilisateur de l'API REST du service de stockage en saisissant l'adresse IP du nœud de gestion, puis `/storage/1/` :
++
+[listing]
+----
+https://<ManagementNodeIP>/storage/1/
+----
+. Sélectionnez *Authorise* ou une icône de verrouillage et procédez comme suit :
++
+.. Saisissez le nom d'utilisateur et le mot de passe du cluster.
+.. Entrez l'ID client comme `mnode-client`.
+.. Sélectionnez *Autoriser* pour démarrer une session.
+.. Fermez la fenêtre.
+
+
+. Sélectionnez *POST /clusters*.
+. Sélectionnez *essayez-le*.
+. Entrez les informations du nouveau cluster de stockage dans les paramètres suivants dans le champ *corps de demande* :
++
+[listing]
+----
+{
+  "installationId": "a1b2c34d-e56f-1a2b-c123-1ab2cd345d6e",
+  "mvip": "10.0.0.1",
+  "password": "admin",
+  "userId": "admin"
+}
+----
++
+|===
+| Paramètre | Type | Description 
+
+
+| `installationId` | chaîne | Installation dans laquelle ajouter le nouveau cluster de stockage. Entrez l'ID d'installation que vous avez enregistré précédemment dans ce paramètre. 
+
+
+| `mvip` | chaîne | Adresse IP virtuelle de gestion IPv4 (MVIP) du cluster de stockage. 
+
+
+| `password` | chaîne | Mot de passe utilisé pour communiquer avec le cluster de stockage. 
+
+
+| `userId` | chaîne | ID utilisateur utilisé pour communiquer avec le cluster de stockage (l'utilisateur doit disposer de privilèges d'administrateur). 
+|===
+. Sélectionnez *Exécuter*.
++
+L'API renvoie un objet contenant des informations sur l'actif de cluster de stockage nouvellement ajouté, telles que le nom, la version et l'adresse IP.
+
+
+
+
+
+== Modifiez les informations d'identification enregistrées pour une ressource de cluster de stockage
+
+Vous pouvez modifier les informations d'identification stockées utilisées par le nœud de gestion pour vous connecter à un cluster de stockage. L'utilisateur que vous choisissez doit disposer d'un accès admin du cluster.
+
+
+NOTE: Assurez-vous d'avoir suivi les étapes de la section <<Récupérer l'ID d'installation et l'ID de cluster d'une ressource de cluster de stockage>> avant de continuer.
+
+.Étapes
+. Accédez à l'interface utilisateur de l'API REST du service de stockage en saisissant l'adresse IP du nœud de gestion, puis `/storage/1/` :
++
+[listing]
+----
+https://<ManagementNodeIP>/storage/1/
+----
+. Sélectionnez *Authorise* ou une icône de verrouillage et procédez comme suit :
++
+.. Saisissez le nom d'utilisateur et le mot de passe du cluster.
+.. Entrez l'ID client comme `mnode-client`.
+.. Sélectionnez *Autoriser* pour démarrer une session.
+.. Fermez la fenêtre.
+
+
+. Sélectionnez *PUT /cluster/{storageId}*.
+. Sélectionnez *essayez-le*.
+. Collez l'ID de cluster de stockage que vous avez copié précédemment dans le `storageId` paramètre.
+. Modifiez l'un des paramètres suivants ou les deux dans le champ *corps de la demande* :
++
+[listing]
+----
+{
+  "password": "adminadmin",
+  "userId": "admin"
+}
+----
++
+|===
+| Paramètre | Type | Description 
+
+
+| `password` | chaîne | Mot de passe utilisé pour communiquer avec le cluster de stockage. 
+
+
+| `userId` | chaîne | ID utilisateur utilisé pour communiquer avec le cluster de stockage (l'utilisateur doit disposer de privilèges d'administrateur). 
+|===
+. Sélectionnez *Exécuter*.
+
+
+
+
+== Supprimer une ressource de cluster de stockage
+
+Vous pouvez supprimer une ressource du cluster de stockage si le cluster de stockage n'est plus en service. Lorsque vous supprimez un actif de cluster de stockage, il n'est pas enregistré automatiquement du nœud de gestion.
+
+
+NOTE: Assurez-vous d'avoir suivi les étapes de la section <<Récupérer l'ID d'installation et l'ID de cluster d'une ressource de cluster de stockage>> avant de continuer.
+
+.Étapes
+. Accédez à l'interface utilisateur de l'API REST du service de stockage en saisissant l'adresse IP du nœud de gestion, puis `/storage/1/` :
++
+[listing]
+----
+https://<ManagementNodeIP>/storage/1/
+----
+. Sélectionnez *Authorise* ou une icône de verrouillage et procédez comme suit :
++
+.. Saisissez le nom d'utilisateur et le mot de passe du cluster.
+.. Entrez l'ID client comme `mnode-client`.
+.. Sélectionnez *Autoriser* pour démarrer une session.
+.. Fermez la fenêtre.
+
+
+. Sélectionnez *DELETE /cluster/{storageId}*.
+. Sélectionnez *essayez-le*.
+. Entrez l'ID de cluster de stockage que vous avez copié précédemment dans le `storageId` paramètre.
+. Sélectionnez *Exécuter*.
++
+Une fois réussi, l'API renvoie une réponse vide.
+
+
+
+[discrete]
+== Trouvez plus d'informations
+
+* link:concept_hci_clusters.html#authoritative-storage-clusters["Cluster faisant autorité"]
+* https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
+* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
+

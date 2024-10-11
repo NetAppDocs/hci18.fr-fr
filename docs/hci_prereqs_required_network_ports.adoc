@@ -1,0 +1,230 @@
+---
+sidebar: sidebar 
+permalink: docs/hci_prereqs_required_network_ports.html 
+summary: Ports TCP et UDP utilisés par NetApp HCI. 
+keywords: netapp, hci, ports, tcp, udp 
+---
+= Configuration requise pour les ports réseau
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous devrez peut-être autoriser les ports suivants à travers le pare-feu de votre centre de données pour pouvoir gérer le système à distance, permettre aux clients situés à l'extérieur de votre centre de données de se connecter aux ressources et vous assurer que les services internes peuvent fonctionner correctement. Certains de ces ports, adresses URL ou adresses IP peuvent ne pas être nécessaires, selon la manière dont vous utilisez le système.
+
+Tous les ports sont TCP, sauf indication contraire, et tous les ports TCP doivent prendre en charge la communication de liaison tridirectionnelle entre le serveur de support NetApp, le nœud de gestion et les nœuds exécutant le logiciel Element. Par exemple, l'hôte d'une source de nœud de gestion communique avec l'hôte d'une destination MVIP de cluster de stockage via le port TCP 443, et l'hôte de destination communique de nouveau avec l'hôte source via n'importe quel port.
+
+Les abréviations suivantes sont utilisées dans le tableau :
+
+* MIP : adresse IP de gestion, une adresse par nœud
+* SIP : adresse IP de stockage, une adresse par nœud
+* MVIP : adresse IP virtuelle de gestion
+* SVIP : adresse IP virtuelle de stockage
+
+
+|===
+| Source | Destination | Port | Description 
+
+
+| Nœud de calcul BMC/IPMI | Nœud de gestion | 111 TCP/UDP | Communications API de NetApp Hybrid Cloud Control 
+
+
+| Nœud de calcul BMC/IPMI | Nœud de gestion | 137-138 UDP | Communications API de NetApp Hybrid Cloud Control 
+
+
+| Nœud de calcul BMC/IPMI | Nœud de gestion | 445 | Communications API de NetApp Hybrid Cloud Control 
+
+
+| Nœud de calcul BMC/IPMI | Nœud de gestion | 623 UDP | Port RMCP (Remote Management Control Protocol). Requis pour les mises à niveau du firmware des ressources de calcul NetApp Cloud Control. 
+
+
+| Nœud de calcul BMC/IPMI | Nœud de gestion | 2049 TCP/UDP | Communications API de NetApp Hybrid Cloud Control 
+
+
+| Clients iSCSI | MVIP du cluster de stockage | 443 | (Facultatif) l'accès à l'interface et aux API 
+
+
+| Clients iSCSI | SVIP du cluster de stockage | 3260 | Communications iSCSI du client 
+
+
+| Clients iSCSI | Nœud de stockage SIP | 3260 | Communications iSCSI du client 
+
+
+| Nœud de gestion | `sfsupport.solidfire.com` | 22 | Tunnel SSH inversé pour l'accès au support 
+
+
+| Nœud de gestion | Nœud de stockage MIP | 22 | Accès SSH pour la prise en charge 
+
+
+| Nœud de gestion | Serveurs DNS | 53 TCP/UDP | Recherche DNS 
+
+
+| Nœud de gestion | Nœud de calcul BMC/IPMI | 139 | Communications API de NetApp Hybrid Cloud Control 
+
+
+| Nœud de gestion | Nœud de stockage MIP | 442 | Accès à l'interface et à l'API pour les mises à niveau du nœud de stockage et du logiciel Element 
+
+
+| Nœud de gestion | Nœud de stockage MVIP | 442 | Accès à l'interface et à l'API pour les mises à niveau du nœud de stockage et du logiciel Element 
+
+
+| Nœud de gestion | `23.32.54.122`, `216.240.21.15` | 443 | Mises à niveau du logiciel Element 
+
+
+| Nœud de gestion | Contrôleur BMC (Baseboard Management Controller) | 443 | Surveillance du matériel et connexion à l'inventaire (commandes Redfish et IPMI) 
+
+
+| Nœud de gestion | Nœud de calcul BMC/IPMI | 443 | Communications HTTPS de NetApp Hybrid Cloud Control 
+
+
+| Nœud de gestion | `monitoring.solidfire.com` | 443 | Reporting sur le cluster de stockage Active IQ 
+
+
+| Nœud de gestion | MVIP du cluster de stockage | 443 | Accès à l'interface et à l'API pour les mises à niveau du nœud de stockage et du logiciel Element 
+
+
+| Nœud de gestion | VMware vCenter | 443 | Communications HTTPS de NetApp Hybrid Cloud Control 
+
+
+| Nœud de gestion | Nœud de calcul BMC/IPMI | 623 UDP | Port RMCP (Remote Management Control Protocol). Requis pour les mises à niveau du firmware des ressources de calcul NetApp Cloud Control. 
+
+
+| Nœud de gestion | Nœud de stockage BMC/IPMI | 623 UDP | Port RMCP. Ceci est nécessaire pour gérer les systèmes compatibles IPMI. 
+
+
+| Nœud de gestion | VMware vCenter | 5988-5989 | Communications HTTPS de NetApp Hybrid Cloud Control 
+
+
+| Nœud de gestion | Nœud témoin | 9442 | Service d'API de configuration par nœud 
+
+
+| Nœud de gestion | Serveur vCenter | 9443 | Enregistrement du plug-in vCenter. Le port peut être fermé une fois l'enregistrement terminé. 
+
+
+| Serveur SNMP | MVIP du cluster de stockage | 161 UDP | Interrogation SNMP 
+
+
+| Serveur SNMP | Nœud de stockage MIP | 161 UDP | Interrogation SNMP 
+
+
+| Nœud de stockage BMC/IPMI | Nœud de gestion | 623 UDP | Port RMCP. Ceci est nécessaire pour gérer les systèmes compatibles IPMI. 
+
+
+| Nœud de stockage MIP | Serveurs DNS | 53 TCP/UDP | Recherche DNS 
+
+
+| Nœud de stockage MIP | Nœud de gestion | 80 | Mises à niveau du logiciel Element 
+
+
+| Nœud de stockage MIP | Terminal S3/Swift | 80 | (Facultatif) communication HTTP vers le terminal S3/Swift pour la sauvegarde et la restauration 
+
+
+| Nœud de stockage MIP | Serveur NTP | 123 UDP | NTP 
+
+
+| Nœud de stockage MIP | Nœud de gestion | 162 UDP | (Facultatif) les interruptions SNMP 
+
+
+| Nœud de stockage MIP | Serveur SNMP | 162 UDP | (Facultatif) les interruptions SNMP 
+
+
+| Nœud de stockage MIP | Serveur LDAP | 389 TCP/UDP | (Facultatif) recherche LDAP 
+
+
+| Nœud de stockage MIP | Nœud de gestion | 443 | Mises à niveau du logiciel Element 
+
+
+| Nœud de stockage MIP | Cluster de stockage distant MVIP | 443 | Communication de jumelage de cluster de réplication à distance 
+
+
+| Nœud de stockage MIP | MIP du nœud de stockage distant | 443 | Communication de jumelage de cluster de réplication à distance 
+
+
+| Nœud de stockage MIP | Terminal S3/Swift | 443 | (Facultatif) communication HTTPS vers le terminal S3/Swift pour la sauvegarde et la restauration 
+
+
+| Nœud de stockage MIP | Serveur LDAPS | 636 TCP/UDP | Recherche LDAPS 
+
+
+| Nœud de stockage MIP | Nœud de gestion | 10514 TCP/UDP, 514 TCP/UDP | Transfert syslog 
+
+
+| Nœud de stockage MIP | Serveur Syslog | 10514 TCP/UDP, 514 TCP/UDP | Transfert syslog 
+
+
+| Nœud de stockage MIP | MIP du nœud de stockage distant | 2181 | Communication intercluster pour la réplication distante 
+
+
+| Nœud de stockage SIP | Terminal S3/Swift | 80 | (Facultatif) communication HTTP vers le terminal S3/Swift pour la sauvegarde et la restauration 
+
+
+| Nœud de stockage SIP | SIP nœud de calcul | 442 | API de nœud de calcul, configuration et validation, accès à l'inventaire logiciel 
+
+
+| Nœud de stockage SIP | Terminal S3/Swift | 443 | (Facultatif) communication HTTPS vers le terminal S3/Swift pour la sauvegarde et la restauration 
+
+
+| Nœud de stockage SIP | SIP du nœud de stockage distant | 2181 | Communication intercluster pour la réplication distante 
+
+
+| Nœud de stockage SIP | Nœud de stockage SIP | 3260 | ISCSI internœud 
+
+
+| Nœud de stockage SIP | SIP du nœud de stockage distant | 4000 à 4020 | Transfert des données nœud à nœud de réplication à distance 
+
+
+| PC administrateur système | Nœud de stockage MIP | 80 | (NetApp HCI uniquement) page d'accueil du moteur de déploiement NetApp 
+
+
+| PC administrateur système | Nœud de gestion | 442 | Accès interface utilisateur HTTPS au nœud de gestion 
+
+
+| PC administrateur système | Nœud de stockage MIP | 442 | L'interface utilisateur HTTPS et l'API d'accès au nœud de stockage, (NetApp HCI uniquement) et à la surveillance du déploiement dans le moteur de déploiement NetApp 
+
+
+| PC administrateur système | Nœud de calcul BMC/IPMI séries H410 et H600 | 443 | L'interface HTTPS et l'API permettent d'accéder au contrôle à distance des nœuds 
+
+
+| PC administrateur système | Nœud de gestion | 443 | L'interface et l'API HTTPS accèdent au nœud de gestion 
+
+
+| PC administrateur système | MVIP du cluster de stockage | 443 | L'interface HTTPS et l'accès API au cluster de stockage 
+
+
+| PC administrateur système | Nœud de stockage BMC/IPMI séries H410 et H600 | 443 | L'interface HTTPS et l'API permettent d'accéder au contrôle à distance des nœuds 
+
+
+| PC administrateur système | Nœud de stockage MIP | 443 | Création du cluster de stockage HTTPS, accès d'interface post-déploiement au cluster de stockage 
+
+
+| PC administrateur système | Nœud de calcul BMC/IPMI séries H410 et H600 | 623 UDP | Port RMCP. Ceci est nécessaire pour gérer les systèmes compatibles IPMI. 
+
+
+| PC administrateur système | Nœud de stockage BMC/IPMI séries H410 et H600 | 623 UDP | Port RMCP. Ceci est nécessaire pour gérer les systèmes compatibles IPMI. 
+
+
+| PC administrateur système | Nœud témoin | 8080 | Interface utilisateur Web par nœud témoin 
+
+
+| Serveur vCenter | MVIP du cluster de stockage | 443 | Accès à l'API du plug-in vCenter 
+
+
+| Serveur vCenter | Nœud de gestion | 8443 | (Facultatif) service QoSSIOC plug-in vCenter. 
+
+
+| Serveur vCenter | MVIP du cluster de stockage | 8444 | Accès au fournisseur vCenter VASA (VVol uniquement) 
+
+
+| Serveur vCenter | Nœud de gestion | 9443 | Enregistrement du plug-in vCenter. Le port peut être fermé une fois l'enregistrement terminé. 
+|===
+
+
+== Trouvez plus d'informations
+
+* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
+* https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
+

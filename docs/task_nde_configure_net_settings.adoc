@@ -1,0 +1,126 @@
+---
+sidebar: sidebar 
+permalink: docs/task_nde_configure_net_settings.html 
+summary: Découvrez comment configurer les paramètres réseau de déploiement NetApp HCI. 
+keywords: netapp, hci, deployment, compatibility, nodes 
+---
+= Configurez les paramètres réseau
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp HCI fournit une page de paramètres réseau avec un formulaire facile pour simplifier la configuration du réseau. Une fois le formulaire simplifié rempli, NetApp HCI renseigne automatiquement la plupart des autres informations de la page des paramètres réseau. Vous pouvez ensuite entrer les paramètres réseau finaux et vérifier que la configuration réseau est correcte avant de continuer. Vous n'avez pas besoin de remplir le formulaire dans son intégralité.
+
+.Ce dont vous avez besoin
+* Vous avez obtenu les informations suivantes :
++
+** Préfixe de nom planifié pour les hôtes et le cluster de stockage
+** Tous les masques de sous-réseau planifiés, le démarrage de l'adresse IP, de la passerelle par défaut et les ID de VLAN pour les réseaux de gestion, iSCSI et vMotion
+** Adresse IP, passerelle par défaut, ID de VLAN et informations de masque de sous-réseau pour tout déploiement VMware vCenter planifié
+** Adresse du serveur NTP (Network Time Protocol) pour NetApp HCI
+** Informations d'adresse IP du serveur DNS pour NetApp HCI
+
+
+* Si vous déployez un commutateur distribué vSphere, vous disposez d'une licence vSphere Enterprise plus prête à être appliquée une fois le déploiement terminé.
+* Si vous avez attribué des ID VLAN aux ports de nœud lors de la configuration de l'interface utilisateur de terminal (TUI), vous avez configuré ces ports avec le même ID VLAN lors de la configuration du réseau. Il n'est pas nécessaire de configurer des ports hôtes balisés en tant que ports d'accès ou VLAN natifs sur les ports de commutateur connectés.
+* Vous avez vérifié que la configuration de votre commutateur réseau est correcte. Des configurations de commutateur incorrectes (par exemple, des VLAN ou une taille MTU incorrecte) causeront des erreurs de déploiement.
+
+
+.Description de la tâche
+Si vous avez sélectionné la topologie réseau à deux câbles pour les nœuds de calcul, vous devez utiliser les ID VLAN pour les réseaux vMotion et de stockage pour tous les nœuds de calcul et de stockage du déploiement (les ID VLAN sont facultatifs pour les réseaux de gestion).
+
+
+NOTE: Dans les environnements qui nécessitent le balisage VLAN côté hôte avant le déploiement, si vous avez configuré des ID de VLAN sur des nœuds de calcul et de stockage afin qu'ils soient détectables par le moteur de déploiement NetApp, veillez à utiliser les VLAN appropriés lors de la configuration des paramètres réseau dans le moteur de déploiement NetApp.
+
+Si vous déployez à l'aide d'un cluster de stockage à deux ou trois nœuds, vous pouvez compléter les informations d'adresse IP pour les nœuds Witness sur la page *Network Settings* après avoir utilisé le formulaire Easy.
+
+.Étapes
+. Facultatif : pour désactiver la validation en direct des informations réseau que vous entrez sur cette page, basculez le commutateur *Live Network validation is* sur *Off*.
+. Dans la section *Services d'infrastructure* de la page *Paramètres réseau*, entrez les informations relatives au serveur DNS et NTP pour NetApp HCI dans les champs suivants :
++
+|===
+| Champ | Description 
+
+
+| *Adresse IP du serveur DNS 1* | L'adresse IP du serveur DNS principal pour NetApp HCI. Si vous avez spécifié un serveur DNS sur la page de configuration de vCenter, ce champ est renseigné et en lecture seule. 
+
+
+| *Adresse IP du serveur DNS 2 (facultatif)* | Adresse IP facultative d'un serveur DNS secondaire pour NetApp HCI. 
+
+
+| *Adresse serveur NTP 1* | L'adresse IP ou le nom de domaine complet du serveur NTP principal de cette infrastructure. 
+
+
+| *Adresse du serveur NTP 2 (facultatif)* | Adresse IP facultative ou nom de domaine complet du serveur NTP secondaire pour cette infrastructure. 
+|===
+. Sélectionnez *pour gagner du temps, lancez le formulaire simplifié* pour saisir moins de paramètres réseau.
++
+La boîte de dialogue *formulaire simplifié des paramètres réseau* s'affiche.
+
+. Entrez un préfixe de dénomination dans le champ *Naming Prefix*.
++
+Le préfixe de nommage est appliqué au nom de chaque hôte ainsi qu'au nom du cluster de stockage. Les préfixes de dénomination ont les caractéristiques suivantes :
+
++
+** Doit commencer par une lettre
+** Peut contenir des lettres, des chiffres et des tirets
+** Ne peut pas dépasser 55 caractères
+
+
+. Choisissez l'une des options suivantes pour attribuer des ID de VLAN.
++
+À tout moment lorsque vous utilisez le formulaire, sélectionnez *Effacer* en regard d'une ligne pour effacer la saisie d'une ligne de champs.
+
++
+
+NOTE: Lorsque vous attribuez des ID de VLAN, vous configurez des balises VLAN que NetApp HCI appliquera au trafic réseau. Il n'est pas nécessaire de saisir votre VLAN natif comme ID VLAN ; pour utiliser le VLAN natif pour un réseau, laissez le champ approprié vide.
+
++
+|===
+| Option | Étapes 
+
+
+| Attribuez des ID de VLAN  a| 
+.. Sélectionnez *Oui* pour l'option *affectera des ID de VLAN*.
+.. Dans la colonne *VLAN ID*, entrez une balise VLAN à utiliser pour chaque type de trafic réseau que vous souhaitez attribuer à un VLAN.
++
+Le trafic vMotion de calcul et le trafic iSCSI doivent utiliser un ID VLAN non partagé.
+
+.. Sélectionnez *Suivant*.
+.. Dans la colonne *Subnet*, entrez les définitions de sous-réseau au format CIDR pour chaque type de trafic réseau de chaque réseau ; par exemple, 192.168.1.0/24.
+.. Dans la colonne *Default Gateway*, entrez l'adresse IP de la passerelle par défaut pour chaque type de trafic réseau de chaque réseau.
+.. Dans la colonne *starting IP*, entrez la première adresse IP utilisable pour chaque sous-réseau de réseau de chaque réseau.
+
+
+
+
+| N'attribuez pas d'ID de VLAN  a| 
+.. Sélectionnez *non* pour l'option *attribuera-la des ID de VLAN*.
+.. Dans la colonne *Subnet*, entrez les définitions de sous-réseau au format CIDR pour chaque type de trafic réseau de chaque réseau ; par exemple, 192.168.1.0/24.
+.. Dans la colonne *Default Gateway*, entrez l'adresse IP de la passerelle par défaut pour chaque type de trafic réseau de chaque réseau.
+.. Dans la colonne *starting IP*, entrez la première adresse IP utilisable pour chaque type de trafic réseau de chaque réseau.
+
+
+|===
+. Sélectionnez *appliquer aux paramètres réseau*.
+. Sélectionnez *Oui* pour confirmer.
++
+Ceci remplit la page *Paramètres réseau* avec les paramètres que vous avez saisis dans le formulaire facile. NetApp HCI valide les adresses IP que vous avez saisies. Vous pouvez désactiver cette validation à l'aide du bouton Désactiver la validation réseau en direct.
+
+. Vérifiez que les données automatiquement renseignées sont correctes.
+. Sélectionnez *Continuer*.
+
+
+
+
+== Trouvez plus d'informations
+
+* https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
+* https://www.netapp.com/us/documentation/hci.aspx["Page Ressources NetApp HCI"^]
+* http://docs.netapp.com/sfe-122/index.jsp["Centre de documentation des logiciels SolidFire et Element"^]
+

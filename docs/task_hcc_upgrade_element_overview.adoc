@@ -1,0 +1,39 @@
+---
+sidebar: sidebar 
+permalink: docs/task_hcc_upgrade_element_overview.html 
+summary: 'Le logiciel NetApp Element est mis à niveau lorsqu"il fait partie de la mise à niveau des systèmes NetApp HCI.' 
+keywords: netapp, hci, on premise, cluster, element 
+---
+= Mettez à niveau le logiciel Element vers la version 12.2 du cluster de stockage
+:allow-uri-read: 
+
+
+[role="lead"]
+Dans le cadre d'une mise à niveau des systèmes de stockage NetApp HCI ou SolidFire, vous mettez à niveau le logiciel NetApp Element.
+
+Vous devez utiliser la suite d'outils HealthTools pour mettre à niveau le logiciel du nœud de stockage.
+
+.Ce dont vous avez besoin
+* Vous exécutez le nœud de gestion 11.0, 11.1 ou version ultérieure.
+* Vous avez mis à niveau vos services de gestion vers au moins la version 2.1.326.
++
+Les mises à niveau de NetApp Hybrid Cloud Control ne sont pas disponibles dans les versions précédentes de packs de services.
+
+
+
+.Étapes
+. Déterminez la version d'Element sur votre cluster de stockage.
+. Utilisez HealthTools pour exécuter des vérifications de pré-mise à niveau.
+. Mettez à niveau la version du logiciel Element.
+. Mettez à niveau la version du logiciel Element sur des sites invisibles.
+
+
+
+TIP: Pour afficher le nombre de ressources de stockage et de calcul, consultez le tableau de bord NetApp Hybrid Cloud Control (HCC). Voir link:task_hcc_dashboard.html["Affichez les ressources de stockage et de calcul dans le tableau de bord HCC"].
+
+[discrete]
+== Trouvez plus d'informations
+
+* https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
+* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
+

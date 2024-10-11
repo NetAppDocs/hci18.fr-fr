@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: docs/task_nde_hci_power_on_storage.html 
+summary: Découvrez comment mettre hors tension les nœuds de calcul NetApp HCI. 
+keywords: netapp, hci, netapp deployment engine, deployment, vsphere 
+---
+= Mettez sous tension les ressources de stockage d'un système NetApp HCI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez mettre NetApp HCI sous tension à la fin du temps d'arrêt planifié.
+
+.Étapes
+. Mettez tous les nœuds de stockage sous tension à l'aide du bouton d'alimentation physique ou du contrôleur BMC.
+. Si vous utilisez le contrôleur BMC, connectez-vous à chaque nœud et accédez à *Remote Control > Power Control > Power On Server*.
+. Une fois tous les nœuds de stockage en ligne, connectez-vous au système de stockage NetApp HCI et vérifiez que tous les nœuds sont opérationnels.
+
+
+[discrete]
+== Trouvez plus d'informations
+
+* link:firmware_driver_versions.html["Versions de firmware et de pilote ESXi prises en charge pour les versions de NetApp HCI et de firmware pour les nœuds de stockage NetApp HCI"]
+

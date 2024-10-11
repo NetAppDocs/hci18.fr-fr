@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: docs/task_nde_join_existing_vsphere.html 
+summary: Découvrez comment configurer VMware vSphere lors du déploiement de NetApp HCI. 
+keywords: netapp, hci, netapp deployment engine, deployment, vsphere 
+---
+= Associez à un déploiement VMware vSphere existant
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Configurez NetApp HCI pour tirer parti d'un déploiement vSphere existant en fournissant les informations réseau et les informations d'identification du serveur vCenter.
+
+.Ce dont vous avez besoin
+* Si vous rejoignez un déploiement vSphere 6.7 existant, assurez-vous que vCenter Server exécute la mise à jour 1 de la version 6.7.
+* Si vous rejoignez un déploiement vSphere 6.5 existant, assurez-vous que vCenter Server exécute la version 6.5 mise à jour 2 ou ultérieure.
+* Obtenez les détails du réseau et les informations d'identification de l'administrateur pour votre déploiement vSphere existant.
+
+
+.Description de la tâche
+Si vous rejoignez plusieurs systèmes vCenter Server connectés à l'aide du mode lié vCenter, NetApp HCI ne reconnaît qu'un des systèmes vCenter Server.
+
+
+NOTE: L'utilisation du plug-in NetApp Element pour vCenter Server pour gérer les ressources du cluster à partir d'autres serveurs vCenter à l'aide de link:https://docs.netapp.com/us-en/vcp/vcp_concept_linkedmode.html["Mode lié vCenter"^] est limitée aux clusters de stockage locaux uniquement.
+
+.Étapes
+. Sélectionnez *rejoindre et étendre un déploiement vSphere existant*.
+. Entrez le nom de domaine ou l'adresse IP dans le champ *Nom de domaine ou adresse IP du serveur vCenter*. Si vous saisissez un nom de domaine, vous devez également saisir l'adresse IP d'un serveur DNS actif dans le champ *DNS Server IP Address* qui s'affiche.
+. Entrez les informations d'identification d'un administrateur vSphere dans les champs *Nom d'utilisateur et Mot de passe*.
+. Sélectionnez *Continuer*.
+
+
+[discrete]
+== Trouvez plus d'informations
+
+* link:firmware_driver_versions.html["Versions de firmware et de pilote ESXi prises en charge pour les versions de NetApp HCI et de firmware pour les nœuds de stockage NetApp HCI"]
+

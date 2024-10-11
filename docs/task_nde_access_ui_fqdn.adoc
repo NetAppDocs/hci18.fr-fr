@@ -1,0 +1,224 @@
+---
+sidebar: sidebar 
+permalink: docs/task_nde_access_ui_fqdn.html 
+summary: 'Découvrez comment configurer votre système pour l"accès FQDN aux interfaces utilisateur Web.' 
+keywords: netapp, hci, fqdn, ui, access, web, administration 
+---
+= Configurez l'accès à l'interface utilisateur Web du nom de domaine complet
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp HCI avec Element 12.2 ou version ultérieure vous permet d'accéder aux interfaces Web du cluster de stockage à l'aide du nom de domaine complet (FQDN). Si vous souhaitez utiliser le FQDN pour accéder aux interfaces utilisateur Web telles que l'interface utilisateur Web d'Element, l'interface utilisateur par nœud ou l'interface utilisateur du nœud de gestion, vous devez d'abord ajouter un paramètre de cluster de stockage pour identifier le FQDN utilisé par le cluster. Cela permet au cluster de rediriger correctement une session de connexion et améliore l'intégration avec les services externes tels que les gestionnaires de clés et les fournisseurs d'identité pour l'authentification multi-facteurs.
+
+.Ce dont vous avez besoin
+* Cette fonctionnalité requiert Element 12.2 ou version ultérieure.
+* La configuration de cette fonctionnalité à l'aide des API REST de NetApp Hybrid Cloud Control nécessite des services de gestion version 2.15 ou ultérieure.
+* La configuration de cette fonctionnalité à l'aide de l'interface de contrôle du cloud hybride NetApp nécessite des services de gestion version 2.19 ou ultérieure.
+* Pour utiliser des API REST, vous devez avoir déployé un nœud de gestion exécutant la version 11.5 ou une version ultérieure.
+* Vous avez besoin de noms de domaine complets pour le nœud de gestion et chaque cluster de stockage qui se règlent correctement par adresse IP du nœud de gestion et par adresse IP de chaque cluster de stockage.
+
+
+Vous pouvez configurer ou supprimer l'accès à l'interface utilisateur Web du FQDN à l'aide de NetApp Hybrid Cloud Control et de l'API REST. Vous pouvez également dépanner des FQDN mal configurés.
+
+* <<Configurez l'accès à l'interface utilisateur Web du FQDN à l'aide de NetApp Hybrid Cloud Control>>
+* <<Configurez l'accès à l'interface utilisateur Web du FQDN à l'aide de l'API REST>>
+* <<Supprimez l'accès à l'interface utilisateur Web du FQDN à l'aide de NetApp Hybrid Cloud Control>>
+* <<Supprimez l'accès à l'interface utilisateur Web du FQDN à l'aide de l'API REST>>
+* <<Dépannage>>
+
+
+
+
+== Configurez l'accès à l'interface utilisateur Web du FQDN à l'aide de NetApp Hybrid Cloud Control
+
+.Étapes
+. Ouvrez l'adresse IP du nœud de gestion dans un navigateur Web :
++
+[listing]
+----
+https://<ManagementNodeIP>
+----
+. Connectez-vous au contrôle de cloud hybride NetApp en fournissant les identifiants de l'administrateur du cluster de stockage.
+. Sélectionnez l'icône de menu en haut à droite de la page.
+. Sélectionnez *configurer*.
+. Dans le volet *noms de domaine complets*, sélectionnez *configurer*.
+. Dans la fenêtre obtenue, saisissez les FQDN du noeud de gestion et de chaque cluster de stockage.
+. Sélectionnez *Enregistrer*.
++
+Le volet *noms de domaine pleinement qualifiés* répertorie chaque cluster de stockage avec son MVIP et son FQDN associés.
+
++
+
+NOTE: Seuls les clusters de stockage connectés avec le jeu FQDN sont répertoriés dans le volet *noms de domaine complets*.
+
+
+
+
+
+== Configurez l'accès à l'interface utilisateur Web du FQDN à l'aide de l'API REST
+
+.Étapes
+. Assurez-vous que le DNS des nœuds de stockage d'éléments et du nœud de gestion est correctement configuré pour l'environnement réseau de sorte que les FQDN de l'environnement puissent être résolus. Pour définir le DNS, accédez à l'interface utilisateur par nœud pour les nœuds de stockage et au nœud de gestion, puis sélectionnez *Paramètres réseau* > *réseau de gestion*.
++
+.. Interface utilisateur par nœud pour les nœuds de stockage : `https://<storage_node_management_IP>:442`
+.. Interface utilisateur par nœud pour le nœud de gestion : `https://<ManagementNodeIP>:442`
+
+
+. Modifiez les paramètres du cluster de stockage à l'aide de l'API Element.
++
+.. Accédez à l'API Element et créez la préférence d'interface de cluster suivante à l'aide de `CreateClusterInterfacePreference` la méthode API, puis insérez le nom de domaine complet MVIP du cluster comme valeur de préférence :
++
+*** Nom : `mvip_fqdn`
+*** Valeur : <Nom de domaine complet pour le Cluster MVIP>
++
+Par exemple, le nom de domaine complet ici est `storagecluster.my.org`:
+
++
+[listing]
+----
+https://<Cluster_MVIP>/json-rpc/12.2?method=CreateClusterInterfacePreference&name=mvip_fqdn&value=storagecluster.my.org
+----
+
+
+
+
+. Modifiez les paramètres du nœud de gestion à l'aide de l'API REST sur le nœud de gestion :
++
+.. Accédez à l'interface utilisateur de l'API REST du nœud de gestion en saisissant l'adresse IP du nœud de gestion, puis en saisissant `/mnode/2/` . Par exemple :
++
+[listing]
+----
+https://<ManagementNodeIP>/mnode/2/
+----
+.. Sélectionnez *Authorise* ou toute icône de verrouillage et entrez le nom d'utilisateur et le mot de passe du cluster d'éléments.
+.. Entrez l'ID client comme `mnode-client`.
+.. Sélectionnez *Autoriser* pour démarrer une session.
+.. Fermez la fenêtre.
+.. Sélectionnez *GET /settings*.
+.. Sélectionnez *essayez-le*.
+.. Sélectionnez *Exécuter*.
+.. Notez si le proxy est utilisé comme indiqué dans `"use_proxy"` `true` ou `false`.
+.. Sélectionnez *PUT /settings*.
+.. Sélectionnez *essayez-le*.
+.. Dans la zone corps de la demande, entrez le nom de domaine complet du nœud de gestion comme valeur du `mnode_fqdn` paramètre. Indiquez également si le proxy doit être utilisé  ou `false` non (`true`à partir de l'étape précédente) pour le `use_proxy` paramètre.
++
+[listing]
+----
+{
+  "mnode_fqdn": "mnode.my.org",
+  "use_proxy": false
+}
+----
+.. Sélectionnez *Exécuter*.
+
+
+
+
+
+
+== Supprimez l'accès à l'interface utilisateur Web du FQDN à l'aide de NetApp Hybrid Cloud Control
+
+Cette procédure permet de supprimer l'accès Web FQDN pour le nœud de gestion et les clusters de stockage.
+
+.Étapes
+. Dans le volet *noms de domaine complets*, sélectionnez *Modifier*.
+. Dans la fenêtre qui s'affiche, supprimez le contenu du champ de texte *FQDN*.
+. Sélectionnez *Enregistrer*.
++
+La fenêtre se ferme et le FQDN n'est plus répertorié dans le volet *noms de domaine complets*.
+
+
+
+
+
+== Supprimez l'accès à l'interface utilisateur Web du FQDN à l'aide de l'API REST
+
+.Étapes
+. Modifiez les paramètres du cluster de stockage à l'aide de l'API Element.
++
+.. Accédez à l'API Element et supprimez la préférence d'interface de cluster suivante à l'aide `DeleteClusterInterfacePreference` de la méthode API :
++
+*** Nom : `mvip_fqdn`
++
+Par exemple :
+
++
+[listing]
+----
+https://<Cluster_MVIP>/json-rpc/12.2?method=DeleteClusterInterfacePreference&name=mvip_fqdn
+----
+
+
+
+
+. Modifiez les paramètres du nœud de gestion à l'aide de l'API REST sur le nœud de gestion :
++
+.. Accédez à l'interface utilisateur de l'API REST du nœud de gestion en saisissant l'adresse IP du nœud de gestion, puis en saisissant `/mnode/2/` . Par exemple :
++
+[listing]
+----
+https://<ManagementNodeIP>/mnode/2/
+----
+.. Sélectionnez *Authorise* ou toute icône de verrouillage et entrez le nom d'utilisateur et le mot de passe du cluster d'éléments.
+.. Entrez l'ID client comme `mnode-client`.
+.. Sélectionnez *Autoriser* pour démarrer une session.
+.. Fermez la fenêtre.
+.. Sélectionnez *PUT /settings*.
+.. Sélectionnez *essayez-le*.
+.. Dans la zone du corps de la demande, n'entrez pas de valeur pour le `mnode_fqdn` paramètre. Indiquez également si le proxy doit être utilisé (`true` ou `false`) pour le `use_proxy` paramètre.
++
+[listing]
+----
+{
+  "mnode_fqdn": "",
+  "use_proxy": false
+}
+----
+.. Sélectionnez *Exécuter*.
+
+
+
+
+
+
+== Dépannage
+
+Si les FQDN ne sont pas correctement configurés, il se peut que vous ayez des difficultés à accéder au nœud de gestion, à un cluster de stockage ou aux deux. Utilisez les informations suivantes pour résoudre le problème.
+
+|===
+| Problème | Cause | Solution 
+
+
+ a| 
+* Vous obtenez une erreur de navigateur lors de la tentative d'accès au nœud de gestion ou au cluster de stockage à l'aide du FQDN.
+* Vous ne pouvez pas vous connecter à un nœud de gestion ou au cluster de stockage utilisant une adresse IP.
+
+| Le FQDN du nœud de gestion et le FQDN du cluster de stockage ne sont pas correctement configurés. | Utilisez les instructions de l'API REST de cette page pour supprimer les paramètres du nœud de gestion et du nom de domaine complet du cluster de stockage et les configurer à nouveau. 
+
+
+ a| 
+* Vous obtenez une erreur de navigateur lors de la tentative d'accès au FQDN du cluster de stockage.
+* Vous ne pouvez pas vous connecter à un nœud de gestion ou au cluster de stockage utilisant une adresse IP.
+
+| Le FQDN du nœud de gestion est correctement configuré, mais le FQDN du cluster de stockage n'est pas correctement configuré. | Utilisez les instructions de l'API REST de cette page pour supprimer les paramètres FQDN du cluster de stockage et les configurer à nouveau. 
+
+
+ a| 
+* Une erreur de navigateur s'affiche lors de la tentative d'accès au FQDN du nœud de gestion.
+* Vous pouvez vous connecter au nœud de gestion et au cluster de stockage à l'aide d'une adresse IP.
+
+| Le FQDN du nœud de gestion n'est pas correctement configuré, mais le FQDN du cluster de stockage est correctement configuré. | Connectez-vous au contrôle du cloud hybride NetApp pour corriger les paramètres de FQDN du nœud de gestion dans l'interface utilisateur, ou utilisez les instructions de l'API REST de cette page pour corriger les paramètres. 
+|===
+[discrete]
+== Trouvez plus d'informations
+
+* http://docs.netapp.com/sfe-122/topic/com.netapp.doc.sfe-api/GUID-93942724-1C4C-4F3D-B352-89498F7722ED.html["Informations sur l'API CreateClusterInterfacePreference dans le Centre de documentation SolidFire et Element"^]
+* https://www.netapp.com/us/documentation/hci.aspx["Page Ressources NetApp HCI"^]
+* http://docs.netapp.com/sfe-122/index.jsp["Centre de documentation des logiciels SolidFire et Element"^]
+
