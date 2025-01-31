@@ -382,4 +382,4 @@ sidebar:
     - title: Remplacement d'un nœud de stockage dans un cluster à deux nœuds
       url: "/docs/task_hci_2noderepl.html"
   - title: Mentions légales
-    url: "/docs/reference_notices_hci.html"
+    url: "/legal-notices.html"
