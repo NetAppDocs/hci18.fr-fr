@@ -17,7 +17,7 @@ settings:
   langs: fr-fr,us-en,de-de,es-es,it-it,pt-br,ja-jp,ko-kr,zh-cn,zh-tw
 sidebar:
   entries:
-  - title: Documentation NetApp HCI 1.8
+  - title: Documents relatifs à NetApp HCI 1.8
     url: "/index.html"
   - title: Solutions NetApp HCI
     url: "/docs/hci_solutions_index.html"
