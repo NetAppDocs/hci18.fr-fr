@@ -62,5 +62,4 @@ NOTE: Vous pouvez également attendre 15 minutes que l'inventaire soit mis à jo
 == Trouvez plus d'informations
 
 * https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
-* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
 

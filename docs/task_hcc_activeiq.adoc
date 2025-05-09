@@ -59,5 +59,4 @@ TIP: Pour afficher le nombre de ressources de stockage et de calcul, consultez l
 
 * https://docs.netapp.com/us-en/solidfire-active-iq/index.html["Documentation NetApp SolidFire Active IQ"^]
 * https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
-* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
 

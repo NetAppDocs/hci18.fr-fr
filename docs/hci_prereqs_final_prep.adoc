@@ -105,5 +105,4 @@ Vous avez configuré l'adresse IP IPMI pour chaque nœud de calcul et de stockag
 
 * https://docs.netapp.com/us-en/solidfire-active-iq/index.html["Documentation NetApp SolidFire Active IQ"^]
 * https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
-* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
 

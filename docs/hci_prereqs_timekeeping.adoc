@@ -28,6 +28,5 @@ Avant de déployer NetApp HCI, effectuez les préparations suivantes pour les DN
 [discrete]
 == Trouvez plus d'informations
 
-* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
 * https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
 

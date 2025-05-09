@@ -86,7 +86,6 @@ Les comptes de volumes sont gérés dans le tableau NetApp Hybrid Cloud Control 
 
 * link:task_hcc_manage_accounts.html["Gérez les comptes utilisateurs"]
 * link:concept_hci_clusters.html["Découvrir les clusters"]
-* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
 * https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
 * https://docs.netapp.com/sfe-122/index.jsp["Centre de documentation SolidFire et Element"^]
 

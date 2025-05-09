@@ -706,5 +706,4 @@ NOTE: Si le cluster possède également des nœuds non H610S, ces nœuds non H61
 == Trouvez plus d'informations
 
 * https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
-* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
 

@@ -60,5 +60,4 @@ image::mnode_swagger_ui.png[Interface de l'API REST du nœud de gestion]
 
 * link:task_mnode_enable_activeIQ.html["Activation de la surveillance Active IQ et NetApp HCI"]
 * https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
-* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
 

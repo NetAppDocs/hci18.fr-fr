@@ -34,6 +34,5 @@ Voici les liens vers les exigences et les tâches de prédéploiement :
 [discrete]
 == Trouvez plus d'informations
 
-* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
 * https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
 

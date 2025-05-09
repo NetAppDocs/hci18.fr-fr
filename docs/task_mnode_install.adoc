@@ -361,5 +361,4 @@ NOTE: Il est recommandé de créer un nouveau rôle NetApp HCC dans vCenter pour
 * link:task_mnode_add_assets.html["Ajouter une ressource au nœud de gestion"]
 * link:task_mnode_install_add_storage_NIC.html["Configurez une carte réseau de stockage"]
 * https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
-* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
 

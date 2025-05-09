@@ -305,5 +305,4 @@ Une fois les volumes de stockage supprimés, ils restent disponibles pendant env
 * link:concept_hci_volumes.html["Découvrir les volumes"]
 * http://docs.netapp.com/sfe-122/topic/com.netapp.doc.sfe-ug/GUID-2D2EAC0D-DD28-4ACA-A189-AA45E982EFDB.html["Utilisation de volumes"^]
 * https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
-* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
 

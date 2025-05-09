@@ -25,5 +25,4 @@ Lorsque vous mettez à niveau les composants VMware vSphere de votre installatio
 == Trouvez plus d'informations
 
 * https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
-* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
 

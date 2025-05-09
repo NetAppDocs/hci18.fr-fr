@@ -42,6 +42,5 @@ NOTE: Lors de l'extension des ressources de calcul ou de stockage NetApp HCI dan
 * link:task_hcc_expand_compute.html["Étendez les ressources de calcul NetApp HCI"]
 * link:task_hcc_expand_storage.html["L'extension des ressources de stockage NetApp HCI"]
 * link:task_hcc_expand_compute_and_storage.html["Étendez simultanément les ressources de stockage et de calcul NetApp HCI"]
-* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
 * https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
 

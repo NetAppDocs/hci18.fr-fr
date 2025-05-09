@@ -419,5 +419,4 @@ Les vérifications de l'état du stockage font les vérifications suivantes par 
 == Trouvez plus d'informations
 
 * https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
-* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
 

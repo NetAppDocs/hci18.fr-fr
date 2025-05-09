@@ -24,5 +24,4 @@ Avec NetApp HCI, vous pouvez gérer ces ressources de stockage en utilisant le c
 
 * http://docs.netapp.com/sfe-122/index.jsp["Centre de documentation SolidFire et Element 12.2"^]
 * https://docs.netapp.com/us-en/vcp/index.html["Plug-in NetApp Element pour vCenter Server"^]
-* https://www.netapp.com/hybrid-cloud/hci-documentation/["Page Ressources NetApp HCI"^]
 
